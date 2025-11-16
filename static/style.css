@@ -1,0 +1,87 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #e8f0ff, #ffffff);
+  margin: 0;
+  padding: 20px;
+  color: #222;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+h1 { margin-top: 0; }
+
+form input[type="text"] {
+  padding: 10px;
+  width: 70%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  padding: 10px 16px;
+  border: none;
+  background: #0066ff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.card {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.card img { width: 80px; }
+
+.error {
+  background: #ffe9e9;
+  color: #990000;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+/* Grade flexível */
+.grid {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.grid-4 > .info-block {
+  flex: 1; /* 4 blocos iguais */
+}
+
+.grid-2 > .info-block,
+.grid-2 > .chart-block {
+  flex: 1; /* 2 blocos iguais */
+}
+
+/* Blocos de informação */
+.info-block {
+  background: #f0f4ff;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Blocos de gráfico */
+.chart-block {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+
+

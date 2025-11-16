@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultado do Clima</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="grid grid-2">
+            <div class="info-block">
+                    <h1>{{ data.city }}</h1>
+                    <h1>{{ data.condition | capitalize }}</h1>
+            </div>
+            <div class="info-block">
+                    <img src="https://openweathermap.org/img/wn/{{ data.icon }}@2x.png" alt="Clima" class="weather-icon">
+            </div>
+        </div>
+
+        <!-- Primeira linha: 4 blocos -->
+        <div class="grid grid-4">
+            <div class="info-block">
+                <strong>Temperatura:</strong> {{ data.temp }}°C
+            </div>
+            <div class="info-block">
+                <strong>Sensação Térmica:</strong> {{ data.feels_like }}°C
+            </div>
+            <div class="info-block">
+                <strong>Temperatura Mínima:</strong> {{ data.temp_min }}°C
+            </div>
+            <div class="info-block">
+                <strong>Temperatura Máxima:</strong> {{ data.temp_max }}°C
+            </div>
+        </div>
+
+        <!-- Segunda linha: 2 blocos -->
+        <div class="grid grid-2">
+            <div class="info-block">
+                <strong>Umidade:</strong> {{ data.humidity }}%
+            </div>
+            <div class="info-block">
+                <strong>Velocidade do Vento:</strong> {{ data.wind_speed }} m/s
+            </div>
+        </div>
+
+        <!-- Terceira linha: gráficos -->
+        <div class="grid grid-2">
+            <div class="chart-block">
+                <h2>Gráfico 2</h2>
+
+            </div>
+            <!-- ---------------------------- -->
+            <div class="chart-block">
+                <h2>Gráfico Umidade</h2>
+                <canvas id="graficoUmidade" width="250" height="250"></canvas>
+            </div>
+
+        </div>
+
+        <a class="back-link" href="/"> ← Buscar outra cidade</a>
+
+    </div>
+
+    <script>
+        const umidade = {{ data.humidity | tojson }};
+
+        document.addEventListener("DOMContentLoaded", function() {
+            graficoUmidade(umidade);
+        });
+    </script>
+
+</body>
+</html>
+
+
