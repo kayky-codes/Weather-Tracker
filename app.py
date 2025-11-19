@@ -30,7 +30,23 @@ def get_coordinate_by_city(city):
     return data[0]["lat"], data[0]["lon"], data[0].get("name"), data[0].get("country")
 
 
-def get_datas_weather(lat, lon):
+def get_future_weather(lat, lon):
+    url = "https://api.openweathermap.org/data/2.5/forecast"
+    params = {
+        "lat" : lat,
+        "lon" : lon,
+        "appid" : API_KEY,
+        "units": "metric",
+        "lang": "pt_br"
+    }
+
+    resp = requests.get(url, params=params, timeout=15)
+    resp.raise_for_status()
+
+    return resp.json()
+
+
+def get_weather_now(lat, lon):
     url = "https://api.openweathermap.org/data/2.5/weather"
     params = {
         "lat" : lat,
@@ -54,6 +70,7 @@ def get_datas_weather(lat, lon):
         "wind_speed": data["wind"]["speed"],
         "wind_deg": data["wind"]["deg"],
         "wind_gust": data["wind"].get("gust", 0),
+        "cloud": data["clouds"]["all"],
         "icon": data["weather"][0]["icon"]
     }
 
@@ -66,11 +83,13 @@ def index():
 
         try:
             lat, lon, name, country = get_coordinate_by_city(city)
-            weather = get_datas_weather(lat, lon)
+            weather_now = get_weather_now(lat, lon)
+            weather_future = get_future_weather(lat, lon)
 
             data = {
                 "city" : f"{name}, {country}",
-                **weather
+                **weather_now,
+                "future": weather_future
             }
 
             return render_template("result.html", data=data)

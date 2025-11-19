@@ -33,17 +33,84 @@ function graficoUmidade(valor){
 }
 
 
-// Converte o grau da API para o nome da direção (N, NE, SE, etc)
-function directionName(deg) {
-    const direcoes = [
-        "N", "NNE", "NE", "ENE",
-        "E", "ESE", "SE", "SSE",
-        "S", "SSW", "SW", "WSW",
-        "W", "WNW", "NW", "NNW"
-    ];
+function graficoTeia(data){
+    const ctx = document.getElementById("graficoAtual"); // Pegamos o elemento <canvas> do HTML pelo ID, que é onde o gráfico será desenhado
 
-    const index = Math.round(deg / 22.5) % 16;
-    return direcoes[index];
+    new Chart( ctx, {
+        type: "radar", // tipo de grafico
+
+        data: {
+            // Rótulos que aparecem nas pontas da teia
+            labels: [
+                "Temperatura (°C)",
+                "Sensação (°C)",
+                "Umidade (%)",
+                "Nebulosidade (%)",
+                "Ventos (m/s)"
+            ],
+
+            // Dados reais que serão desenhados
+            datasets: [{
+                label: "Condições Atuais", // Nome do conjunto de dados mostrado na legenda
+
+                data: [
+                    data.temp,
+                    data.feels_like,
+                    data.humidity,
+                    data.cloud,
+                    data.wind_speed
+                ],
+
+                // Estilo da área preenchida da teia
+                fill: true,
+
+                borderWidth: 2, // Espessura da linha
+                borderRadius: 4 // Tamanho das bolinhas
+            }]
+        },
+
+        options: {
+            responsive: true
+        },
+
+        plugins: {
+            legend: {
+                position: "bottom", // Legenda embaixo
+
+                labels:{
+                    font: {size: 14}, // Tamanho da fonte da legenda
+                    color: "#333"     // Cor da fonte
+                }
+            },
+        },
+
+    })
+}
+
+function graficoFutureTemp(horario, temps){
+    const ctx = document.getElementById("graficoTempFutura"); // Pegamos o elemento <canvas> do HTML pelo ID, que é onde o gráfico será desenhado
+
+    new Chart(ctx,{
+        type: "line",
+        data: {
+            labels: horario,
+            datasets: [{
+                label: "Temperatura (°C)",
+                data: temps,
+                backgroundColor: "rgba(54, 162, 235, 0.6)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
 }
 
 

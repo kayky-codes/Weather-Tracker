@@ -9,9 +9,11 @@
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 </head>
 <body>
-
+    <!-- Botão de voltar -->
+    <a href="/" class="btn-voltar">← Buscar outra cidade</a>
+    <!-- Inicio de conteiner -->
     <div class="container">
-
+        <!-- Primeira linha -->
         <div class="grid grid-2">
             <div class="info-block">
                     <h1>{{ data.city }}</h1>
@@ -22,7 +24,7 @@
             </div>
         </div>
 
-        <!-- Primeira linha: 4 blocos -->
+        <!-- Segunda linha -->
         <div class="grid grid-4">
             <div class="info-block">
                 <strong>Temperatura:</strong> {{ data.temp }}°C
@@ -38,39 +40,56 @@
             </div>
         </div>
 
-        <!-- Segunda linha: 2 blocos -->
+        <!-- Terceira linha -->
         <div class="grid grid-2">
             <div class="info-block">
                 <strong>Umidade:</strong> {{ data.humidity }}%
             </div>
+            <!-- ---------------------------- -->
             <div class="info-block">
                 <strong>Velocidade do Vento:</strong> {{ data.wind_speed }} m/s
             </div>
         </div>
 
-        <!-- Terceira linha: gráficos -->
+        <!--  -->
         <div class="grid grid-2">
             <div class="chart-block">
-                <h2>Gráfico 2</h2>
-
+                <h2>Gráfico Geral</h2>
+                <canvas id="graficoAtual" width="150" height="70"></canvas>
             </div>
             <!-- ---------------------------- -->
             <div class="chart-block">
                 <h2>Gráfico Umidade</h2>
-                <canvas id="graficoUmidade" width="250" height="250"></canvas>
+                <canvas id="graficoUmidade" width="150" height="70"></canvas>
             </div>
 
         </div>
 
-        <a class="back-link" href="/"> ← Buscar outra cidade</a>
-
+        <!-- Terceira Grafico -->
+        <div class="chart-block">
+            <h2>Temperaturas Futuras</h2>
+            <canvas id="graficoTempFutura" width="150" height="40"></canvas>
+        </div>
     </div>
 
     <script>
         const umidade = {{ data.humidity | tojson }};
+        const d = {{ data | tojson }};
+
+        const future = {{ data.future | tojson }};
+        const horario = [];
+        const temps = [];
+
+        future.list.slice(0, 16).forEach(item => {
+            horario.push(item.dt_txt.split(" ")[1].slice(0, 5));
+            temps.push(item.main.temp);
+        });
+
 
         document.addEventListener("DOMContentLoaded", function() {
             graficoUmidade(umidade);
+            graficoTeia(d);
+            graficoFutureTemp(horario, temps);
         });
     </script>
 
